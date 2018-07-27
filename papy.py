@@ -9,7 +9,7 @@ import json
 import pprint
 from pachore import Chore
 from pasession import *
-import pandas as pd
+#import pandas as pd
 from pacubewrite import CubeUpdate
 from paprocess import TIProcess
 
@@ -105,6 +105,7 @@ class PApy:
         import  time
         url = "Cubes?$select=Name"
         response = self.pa_session.GET(url)
+        print(response)
 
         start = time.clock()
         #objects = json.loads(response.text)['value']

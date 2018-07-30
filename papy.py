@@ -77,41 +77,22 @@ class PApy:
         response = self.pa_session.GET(url)
         return json.dumps({'Groups': json.loads(response.text)['value'][0]['Groups']})
 
+
+    #TODO: working
     def get_cube_names(self, show_control_objects = False):
         """
         :param showcontrolobjects: Boolean: True if include control object
 
-        :return: list : cube names
+        :return: json : cube names
         """
         url = "Cubes?$select=Name"
         response = self.pa_session.GET(url)
-        objects = json.loads(response.text)['value']
-        obj_lst = []
-        for item in objects:
-            if show_control_objects is True:
-                obj_lst.append(item['Name'])
-            else:
-                if item['Name'][0] != '}':
-                    obj_lst.append(item['Name'])
-        return obj_lst
 
-    #TODO: working
-    def get_cube_names2(self, show_control_objects = False):
-        """
-        :param showcontrolobjects: Boolean: True if include control object
+        if not show_control_objects:
+            return json.dumps({'Cubes': [v['Name'] for v in json.loads(response.text)['value'] if v['Name'][0] != '}']})
+        else:
+            return json.dumps({'Cubes': [v['Name'] for v in json.loads(response.text)['value']]})
 
-        :return: list : cube names
-        """
-        import  time
-        url = "Cubes?$select=Name"
-        response = self.pa_session.GET(url)
-        print(response)
-
-        start = time.clock()
-        #objects = json.loads(response.text)['value']
-        m = json.dumps({'Cubes' : [v['Name'] for v in json.loads(response.text)['value']]})
-        print(time.clock() - start)
-        print(m)
 
     def get_dimension_names(self, show_control_objects=False):
         """
